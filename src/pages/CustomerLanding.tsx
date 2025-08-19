@@ -4,7 +4,7 @@ import { MessageCircle, Phone, Clock, Shield } from "lucide-react";
 const CustomerLanding = () => {
   const handleWhatsAppClick = () => {
     // Will be connected to Twilio WhatsApp later
-    window.open("https://wa.me/1234567890?text=Hi, I need help with a service request", "_blank");
+    window.open("https://wa.me/447700900456?text=Hi,%20I%20need%20help%20with%20a%20service%20request", "_blank");
   };
 
   return (
@@ -69,7 +69,7 @@ const CustomerLanding = () => {
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => window.open("tel:+1234567890")}
+            onClick={() => window.open("tel:+447700900456")}
           >
             <Phone className="w-4 h-4 mr-2" />
             Call Now

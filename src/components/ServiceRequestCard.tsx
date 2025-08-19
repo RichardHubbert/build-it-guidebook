@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, MapPin, DollarSign, User, Phone } from "lucide-react";
+import { Clock, MapPin, PoundSterling, User, Phone } from "lucide-react";
 
 interface ServiceRequest {
   id: string;
@@ -85,8 +85,8 @@ const ServiceRequestCard = ({ request }: ServiceRequestCardProps) => {
         
         {request.estimatedCost && (
           <div className="flex items-center space-x-2 text-sm text-success">
-            <DollarSign className="w-4 h-4" />
-            <span>Est. ${request.estimatedCost}</span>
+            <PoundSterling className="w-4 h-4" />
+            <span>Est. £{request.estimatedCost}</span>
           </div>
         )}
         

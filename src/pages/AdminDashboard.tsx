@@ -6,7 +6,7 @@ import IntegrationStatus from "@/components/IntegrationStatus";
 import { 
   Phone, 
   Calendar, 
-  DollarSign, 
+  PoundSterling, 
   Users, 
   TrendingUp,
   Clock
@@ -16,36 +16,36 @@ const AdminDashboard = () => {
   const mockServiceRequests = [
     {
       id: "1",
-      customer: "John Smith",
-      phone: "(555) 123-4567",
-      issue: "Water heater is leaking in basement",
-      address: "123 Oak Street, Downtown",
+      customer: "James Thompson",
+      phone: "07700 900123",
+      issue: "Boiler is leaking in the basement",
+      address: "15 Victoria Road, Manchester M1 4EX",
       urgency: "Emergency" as const,
       status: "Voice Intake" as const,
       technicianZone: "Zone A"
     },
     {
       id: "2", 
-      customer: "Sarah Johnson",
-      phone: "(555) 987-6543",
-      issue: "AC unit not cooling properly",
-      address: "456 Pine Avenue, Midtown",
+      customer: "Sarah Williams",
+      phone: "07812 345678",
+      issue: "Central heating not working properly",
+      address: "42 High Street, Birmingham B2 5QG",
       urgency: "High" as const,
       status: "Scheduled" as const,
-      scheduledTime: "Today 2:00 PM",
-      estimatedCost: 250,
+      scheduledTime: "Today 14:00",
+      estimatedCost: 185,
       technicianZone: "Zone B"
     },
     {
       id: "3",
-      customer: "Mike Davis",
-      phone: "(555) 456-7890", 
-      issue: "Garbage disposal making strange noise",
-      address: "789 Maple Drive, Uptown",
+      customer: "Michael Davies",
+      phone: "07923 456789", 
+      issue: "Kitchen tap making strange noise",
+      address: "78 Kings Road, London SW3 4NX",
       urgency: "Medium" as const,
       status: "In Progress" as const,
-      scheduledTime: "Today 11:00 AM",
-      estimatedCost: 150,
+      scheduledTime: "Today 11:00",
+      estimatedCost: 120,
       technicianZone: "Zone A"
     }
   ];
@@ -73,9 +73,9 @@ const AdminDashboard = () => {
           />
           <StatsCard
             title="Revenue Today"
-            value="$2,450"
+            value="£1,850"
             change="+15%"
-            icon={DollarSign}
+            icon={PoundSterling}
             trend="up"
           />
           <StatsCard
