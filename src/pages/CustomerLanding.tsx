@@ -68,12 +68,24 @@ const CustomerLanding = () => {
           </p>
           <Button
             variant="outline"
-            className="w-full"
+            className="w-full mb-4"
             onClick={() => window.open("tel:+447700900456")}
           >
             <Phone className="w-4 h-4 mr-2" />
             Call Now
           </Button>
+          
+          {/* Admin Access Link */}
+          <div className="text-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs text-muted-foreground hover:text-foreground"
+              onClick={() => window.location.href = "/auth"}
+            >
+              Admin Access
+            </Button>
+          </div>
         </div>
       </div>
     </div>
