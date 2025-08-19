@@ -12,7 +12,7 @@ import {
   Clock
 } from "lucide-react";
 
-const Index = () => {
+const AdminDashboard = () => {
   const mockServiceRequests = [
     {
       id: "1",
@@ -113,4 +113,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default AdminDashboard;
