@@ -3,6 +3,7 @@ import ServiceRequestCard from "@/components/ServiceRequestCard";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import StatsCard from "@/components/StatsCard";
 import IntegrationStatus from "@/components/IntegrationStatus";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   Phone, 
   Calendar, 
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 
 const AdminDashboard = () => {
+  const { user } = useAuth();
   const mockServiceRequests = [
     {
       id: "1",
