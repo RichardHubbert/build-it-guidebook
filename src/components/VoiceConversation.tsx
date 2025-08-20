@@ -46,8 +46,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
     onMessage: (message) => {
       console.log('Message received:', message);
       // Parse customer data from conversation
-      if (message.type === 'agent_response') {
-        parseCustomerData(message.text);
+      if (message.source === 'ai') {
+        parseCustomerData(message.message);
       }
     },
     clientTools: {
@@ -177,14 +177,21 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
   const startConversation = async () => {
     try {
       setIsLoading(true);
-      // Note: You'll need to get a signed URL from your backend or use agent ID
-      const agentId = process.env.ELEVENLABS_AGENT_ID; // Set this in your environment
       
-      if (!agentId) {
-        throw new Error('ElevenLabs agent ID not configured');
+      // Get signed URL from our edge function
+      const { data, error } = await supabase.functions.invoke('elevenlabs-session', {
+        body: { agentId: "agent_5201k1zbeaqxeyzr3sq4edy6pffn" }
+      });
+
+      if (error) {
+        throw new Error(error.message || 'Failed to get session URL');
       }
 
-      await conversation.startSession({ agentId });
+      if (!data?.signedUrl) {
+        throw new Error('No signed URL returned from server');
+      }
+
+      await conversation.startSession({ signedUrl: data.signedUrl });
     } catch (error) {
       console.error('Failed to start conversation:', error);
       toast({
