@@ -267,6 +267,32 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
     try {
       // Save the conversation before ending
       await saveConversation();
+      
+      // Automatically create service request if we have customer data
+      if (customerData.name && customerData.phone && customerData.issue) {
+        const { error } = await supabase
+          .from('service_requests')
+          .insert({
+            customer_name: customerData.name,
+            phone: customerData.phone,
+            issue: customerData.issue || 'Voice conversation inquiry',
+            address: customerData.address || 'Not provided',
+            urgency: 'Medium',
+            business_id: businessId || null,
+            status: 'Voice Intake',
+            created_by: null
+          });
+
+        if (error) {
+          console.error('Error creating service request:', error);
+        } else {
+          toast({
+            title: "Service Request Created",
+            description: `Service request for ${customerData.name} has been created and added to Active Service Requests.`,
+          });
+        }
+      }
+      
       await conversation.endSession();
       onClose();
     } catch (error) {
