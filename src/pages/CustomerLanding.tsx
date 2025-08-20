@@ -4,14 +4,12 @@ import { MessageCircle, Phone, Clock, Shield, Calendar, Send, Mic } from "lucide
 import N8nWhatsApp from "@/components/N8nWhatsApp";
 import N8nTelegram from "@/components/N8nTelegram";
 import BookingForm from "@/components/BookingForm";
-import { VoiceConversation } from "@/components/VoiceConversation";
+
 
 const CustomerLanding = () => {
   const [isWhatsAppFormOpen, setIsWhatsAppFormOpen] = useState(false);
   const [isTelegramFormOpen, setIsTelegramFormOpen] = useState(false);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
-  const [isVoiceConversationOpen, setIsVoiceConversationOpen] = useState(false);
-
   const handleWhatsAppClick = () => {
     setIsWhatsAppFormOpen(true);
   };
@@ -25,16 +23,12 @@ const CustomerLanding = () => {
   };
 
   const handleVoiceClick = () => {
-    console.log('Voice button clicked');
-    setIsVoiceConversationOpen(true);
-    console.log('isVoiceConversationOpen set to true');
-  };
-
-  useEffect(() => {
-    if (isVoiceConversationOpen) {
-      console.log('Voice conversation modal is now open');
+    // Show the ElevenLabs widget
+    const widget = document.querySelector('elevenlabs-convai') as any;
+    if (widget) {
+      widget.show();
     }
-  }, [isVoiceConversationOpen]);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
@@ -160,11 +154,12 @@ const CustomerLanding = () => {
         onClose={() => setIsBookingFormOpen(false)} 
       />
       
-      {isVoiceConversationOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <VoiceConversation onClose={() => setIsVoiceConversationOpen(false)} />
-        </div>
-      )}
+      {/* ElevenLabs ConvAI Widget */}
+      <div 
+        dangerouslySetInnerHTML={{
+          __html: '<elevenlabs-convai agent-id="agent_5201k1zbeaqxeyzr3sq4edy6pffn"></elevenlabs-convai>'
+        }}
+      />
     </div>
   );
 };
