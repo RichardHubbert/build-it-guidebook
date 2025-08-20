@@ -8,50 +8,86 @@ const ElevenLabsWidget = ({ agentId }: ElevenLabsWidgetProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Wait for the widget script to load
+    // Add CSS to override ElevenLabs widget positioning
+    const style = document.createElement('style');
+    style.textContent = `
+      elevenlabs-convai {
+        position: static !important;
+        bottom: auto !important;
+        right: auto !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        z-index: auto !important;
+      }
+      
+      elevenlabs-convai > * {
+        position: relative !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      [data-elevenlabs-widget] {
+        position: static !important;
+        bottom: auto !important;
+        right: auto !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        z-index: auto !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Also try to force move and style the widget
     const checkAndMoveWidget = () => {
       const widget = document.querySelector('elevenlabs-convai') as HTMLElement;
-      const widgetContainer = document.querySelector('[data-elevenlabs-widget]') as HTMLElement;
       
       if (widget && containerRef.current) {
-        // Try to move the widget to our container
+        // Force move the widget to our container
         containerRef.current.appendChild(widget);
         
-        // Override any positioning styles
-        widget.style.position = 'static';
-        widget.style.bottom = 'auto';
-        widget.style.right = 'auto';
-        widget.style.width = '100%';
-        widget.style.height = '100%';
-      } else if (widgetContainer && containerRef.current) {
-        containerRef.current.appendChild(widgetContainer);
-        
-        widgetContainer.style.position = 'static';
-        widgetContainer.style.bottom = 'auto';
-        widgetContainer.style.right = 'auto';
-        widgetContainer.style.width = '100%';
-        widgetContainer.style.height = '100%';
+        // Override all positioning styles with !important
+        widget.style.setProperty('position', 'static', 'important');
+        widget.style.setProperty('bottom', 'auto', 'important');
+        widget.style.setProperty('right', 'auto', 'important');
+        widget.style.setProperty('left', 'auto', 'important');
+        widget.style.setProperty('top', 'auto', 'important');
+        widget.style.setProperty('transform', 'none', 'important');
+        widget.style.setProperty('width', '100%', 'important');
+        widget.style.setProperty('height', '100%', 'important');
+        widget.style.setProperty('z-index', 'auto', 'important');
       }
     };
 
     // Check multiple times as the widget might load asynchronously
-    const timeouts = [100, 500, 1000, 2000];
+    const timeouts = [100, 500, 1000, 2000, 5000];
     timeouts.forEach(delay => {
       setTimeout(checkAndMoveWidget, delay);
     });
 
-    // Also try on window load
-    window.addEventListener('load', checkAndMoveWidget);
+    // Also check periodically for a bit to catch late loading
+    const interval = setInterval(checkAndMoveWidget, 1000);
+    setTimeout(() => clearInterval(interval), 10000);
 
     return () => {
-      window.removeEventListener('load', checkAndMoveWidget);
+      clearInterval(interval);
+      document.head.removeChild(style);
     };
   }, [agentId]);
 
   return (
     <div 
       ref={containerRef}
-      className="w-full h-full flex items-center justify-center"
+      className="w-full h-full flex items-center justify-center relative"
       style={{ minHeight: '200px' }}
     >
       <div 
