@@ -1181,6 +1181,65 @@ export type Database = {
         }
         Relationships: []
       }
+      service_requests: {
+        Row: {
+          address: string
+          business_id: string | null
+          created_at: string
+          created_by: string | null
+          customer_name: string
+          estimated_cost: number | null
+          id: string
+          issue: string
+          phone: string
+          scheduled_time: string | null
+          status: string
+          technician_zone: string | null
+          updated_at: string
+          urgency: string
+        }
+        Insert: {
+          address: string
+          business_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_name: string
+          estimated_cost?: number | null
+          id?: string
+          issue: string
+          phone: string
+          scheduled_time?: string | null
+          status?: string
+          technician_zone?: string | null
+          updated_at?: string
+          urgency?: string
+        }
+        Update: {
+          address?: string
+          business_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_name?: string
+          estimated_cost?: number | null
+          id?: string
+          issue?: string
+          phone?: string
+          scheduled_time?: string | null
+          status?: string
+          technician_zone?: string | null
+          updated_at?: string
+          urgency?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           business_id: string | null

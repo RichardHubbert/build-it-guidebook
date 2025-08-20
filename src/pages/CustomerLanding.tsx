@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone, Clock, Shield } from "lucide-react";
+import ServiceRequestForm from "@/components/ServiceRequestForm";
 
 const CustomerLanding = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
   const handleWhatsAppClick = () => {
-    // Will be connected to Twilio WhatsApp later
-    window.open("https://wa.me/447700900456?text=Hi,%20I%20need%20help%20with%20a%20service%20request", "_blank");
+    setIsFormOpen(true);
   };
 
   return (
@@ -88,6 +91,11 @@ const CustomerLanding = () => {
           </div>
         </div>
       </div>
+      
+      <ServiceRequestForm 
+        isOpen={isFormOpen} 
+        onClose={() => setIsFormOpen(false)} 
+      />
     </div>
   );
 };
