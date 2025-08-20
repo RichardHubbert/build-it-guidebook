@@ -4,7 +4,6 @@ import { MessageCircle, Phone, Clock, Shield, Calendar, Send, Mic } from "lucide
 import N8nWhatsApp from "@/components/N8nWhatsApp";
 import N8nTelegram from "@/components/N8nTelegram";
 import BookingForm from "@/components/BookingForm";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 
 
 const CustomerLanding = () => {
@@ -43,49 +42,46 @@ const CustomerLanding = () => {
         {/* Main Action Buttons */}
         <div className="mb-8">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-foreground mb-2">Talk to our AI Assistant</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-2">How would you like to get help?</h2>
             <p className="text-muted-foreground text-sm">
-              Start a voice conversation with our AI assistant for instant help
+              Start a conversation via WhatsApp or Telegram, or book a scheduled appointment
             </p>
           </div>
 
-          {/* ElevenLabs ConvAI Widget - Main Feature */}
-          <div className="mb-6 p-6 bg-primary/5 rounded-2xl border border-primary/30 min-h-[200px]">
-            <ElevenLabsWidget agentId="agent_5201k1zbeaqxeyzr3sq4edy6pffn" />
-          </div>
-
-          <div className="text-center mb-6">
-            <p className="text-sm text-muted-foreground">Or choose another option below</p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-4">
             {/* WhatsApp Button */}
             <Button
               onClick={handleWhatsAppClick}
-              variant="outline"
-              className="w-full py-3 text-base font-medium rounded-xl"
+              className="w-full bg-success hover:bg-success/90 text-success-foreground py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
             >
-              <MessageCircle className="w-5 h-5 mr-3" />
+              <MessageCircle className="w-6 h-6 mr-3" />
               Start WhatsApp Chat
             </Button>
 
             {/* Telegram Button */}
             <Button
               onClick={handleTelegramClick}
-              variant="outline"
-              className="w-full py-3 text-base font-medium rounded-xl"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
             >
-              <Send className="w-5 h-5 mr-3" />
+              <Send className="w-6 h-6 mr-3" />
               Start Telegram Chat
+            </Button>
+
+            {/* Voice Conversation Button */}
+            <Button
+              onClick={handleVoiceClick}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
+            >
+              <Mic className="w-6 h-6 mr-3" />
+              Talk to AI Assistant
             </Button>
 
             {/* Booking Button */}
             <Button
               onClick={handleBookingClick}
-              variant="outline"
-              className="w-full py-3 text-base font-medium rounded-xl"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
             >
-              <Calendar className="w-5 h-5 mr-3" />
+              <Calendar className="w-6 h-6 mr-3" />
               Book Appointment
             </Button>
           </div>
@@ -158,6 +154,12 @@ const CustomerLanding = () => {
         onClose={() => setIsBookingFormOpen(false)} 
       />
       
+      {/* ElevenLabs ConvAI Widget */}
+      <div 
+        dangerouslySetInnerHTML={{
+          __html: '<elevenlabs-convai agent-id="agent_5201k1zbeaqxeyzr3sq4edy6pffn"></elevenlabs-convai>'
+        }}
+      />
     </div>
   );
 };
