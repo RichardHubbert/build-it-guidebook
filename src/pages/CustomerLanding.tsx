@@ -23,10 +23,14 @@ const CustomerLanding = () => {
   };
 
   const handleVoiceClick = () => {
-    // Show the ElevenLabs widget
+    // The ElevenLabs widget should be visible by default
+    // If it's not visible, we can try to trigger it by dispatching a click event
     const widget = document.querySelector('elevenlabs-convai') as any;
     if (widget) {
-      widget.show();
+      // Try to trigger the widget - some widgets respond to click events
+      widget.click();
+    } else {
+      console.log('ElevenLabs widget not found');
     }
   };
 
