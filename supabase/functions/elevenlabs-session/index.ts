@@ -6,23 +6,31 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  console.log('ElevenLabs session function called, method:', req.method)
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
+    console.log('Handling CORS preflight request')
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
+    console.log('Processing ElevenLabs session request')
     const { agentId } = await req.json()
+    console.log('Agent ID received:', agentId)
 
     if (!agentId) {
       throw new Error('Agent ID is required')
     }
 
     const elevenLabsApiKey = Deno.env.get('ELEVENLABS_API_KEY')
+    console.log('ElevenLabs API key exists:', !!elevenLabsApiKey)
+    
     if (!elevenLabsApiKey) {
       throw new Error('ElevenLabs API key not configured')
     }
 
+    console.log('Making request to ElevenLabs API...')
     // Get signed URL for the conversation
     const response = await fetch(
       `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${agentId}`,
@@ -34,12 +42,16 @@ serve(async (req) => {
       }
     )
 
+    console.log('ElevenLabs API response status:', response.status)
+
     if (!response.ok) {
       const errorText = await response.text()
+      console.error('ElevenLabs API error response:', errorText)
       throw new Error(`ElevenLabs API error: ${response.status} - ${errorText}`)
     }
 
     const data = await response.json()
+    console.log('ElevenLabs API response data:', data)
 
     return new Response(
       JSON.stringify({ signedUrl: data.signed_url }),
