@@ -4,6 +4,7 @@ import { MessageCircle, Phone, Clock, Shield, Calendar, Send, Mic } from "lucide
 import N8nWhatsApp from "@/components/N8nWhatsApp";
 import N8nTelegram from "@/components/N8nTelegram";
 import BookingForm from "@/components/BookingForm";
+import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 
 
 const CustomerLanding = () => {
@@ -49,12 +50,8 @@ const CustomerLanding = () => {
           </div>
 
           {/* ElevenLabs ConvAI Widget - Main Feature */}
-          <div className="mb-6 p-6 bg-primary/5 rounded-2xl border border-primary/30 min-h-[200px] flex items-center justify-center">
-            <div 
-              dangerouslySetInnerHTML={{
-                __html: '<elevenlabs-convai agent-id="agent_5201k1zbeaqxeyzr3sq4edy6pffn"></elevenlabs-convai>'
-              }}
-            />
+          <div className="mb-6 p-6 bg-primary/5 rounded-2xl border border-primary/30 min-h-[200px]">
+            <ElevenLabsWidget agentId="agent_5201k1zbeaqxeyzr3sq4edy6pffn" />
           </div>
 
           <div className="text-center mb-6">
