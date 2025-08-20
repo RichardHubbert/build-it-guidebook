@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Phone, Clock, Shield, Calendar } from "lucide-react";
+import { MessageCircle, Phone, Clock, Shield, Calendar, Send } from "lucide-react";
 import N8nWhatsApp from "@/components/N8nWhatsApp";
+import N8nTelegram from "@/components/N8nTelegram";
 import BookingForm from "@/components/BookingForm";
 
 const CustomerLanding = () => {
   const [isWhatsAppFormOpen, setIsWhatsAppFormOpen] = useState(false);
+  const [isTelegramFormOpen, setIsTelegramFormOpen] = useState(false);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
 
   const handleWhatsAppClick = () => {
     setIsWhatsAppFormOpen(true);
+  };
+
+  const handleTelegramClick = () => {
+    setIsTelegramFormOpen(true);
   };
 
   const handleBookingClick = () => {
@@ -30,7 +36,7 @@ const CustomerLanding = () => {
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-foreground mb-2">How would you like to get help?</h2>
             <p className="text-muted-foreground text-sm">
-              Start a WhatsApp conversation or book a scheduled appointment
+              Start a conversation via WhatsApp or Telegram, or book a scheduled appointment
             </p>
           </div>
 
@@ -42,6 +48,15 @@ const CustomerLanding = () => {
             >
               <MessageCircle className="w-6 h-6 mr-3" />
               Start WhatsApp Chat
+            </Button>
+
+            {/* Telegram Button */}
+            <Button
+              onClick={handleTelegramClick}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
+            >
+              <Send className="w-6 h-6 mr-3" />
+              Start Telegram Chat
             </Button>
 
             {/* Booking Button */}
@@ -110,6 +125,11 @@ const CustomerLanding = () => {
       <N8nWhatsApp 
         isOpen={isWhatsAppFormOpen} 
         onClose={() => setIsWhatsAppFormOpen(false)} 
+      />
+      
+      <N8nTelegram 
+        isOpen={isTelegramFormOpen} 
+        onClose={() => setIsTelegramFormOpen(false)} 
       />
       
       <BookingForm 
