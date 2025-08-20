@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Phone, Clock, Shield, Calendar, Send } from "lucide-react";
+import { MessageCircle, Phone, Clock, Shield, Calendar, Send, Mic } from "lucide-react";
 import N8nWhatsApp from "@/components/N8nWhatsApp";
 import N8nTelegram from "@/components/N8nTelegram";
 import BookingForm from "@/components/BookingForm";
+import { VoiceConversation } from "@/components/VoiceConversation";
 
 const CustomerLanding = () => {
   const [isWhatsAppFormOpen, setIsWhatsAppFormOpen] = useState(false);
   const [isTelegramFormOpen, setIsTelegramFormOpen] = useState(false);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
+  const [isVoiceConversationOpen, setIsVoiceConversationOpen] = useState(false);
 
   const handleWhatsAppClick = () => {
     setIsWhatsAppFormOpen(true);
@@ -20,6 +22,10 @@ const CustomerLanding = () => {
 
   const handleBookingClick = () => {
     setIsBookingFormOpen(true);
+  };
+
+  const handleVoiceClick = () => {
+    setIsVoiceConversationOpen(true);
   };
 
   return (
@@ -57,6 +63,15 @@ const CustomerLanding = () => {
             >
               <Send className="w-6 h-6 mr-3" />
               Start Telegram Chat
+            </Button>
+
+            {/* Voice Conversation Button */}
+            <Button
+              onClick={handleVoiceClick}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
+            >
+              <Mic className="w-6 h-6 mr-3" />
+              Talk to AI Assistant
             </Button>
 
             {/* Booking Button */}
@@ -136,6 +151,12 @@ const CustomerLanding = () => {
         isOpen={isBookingFormOpen} 
         onClose={() => setIsBookingFormOpen(false)} 
       />
+      
+      {isVoiceConversationOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <VoiceConversation onClose={() => setIsVoiceConversationOpen(false)} />
+        </div>
+      )}
     </div>
   );
 };
