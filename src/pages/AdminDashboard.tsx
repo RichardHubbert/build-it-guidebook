@@ -4,15 +4,18 @@ import ServiceRequestCard from "@/components/ServiceRequestCard";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import StatsCard from "@/components/StatsCard";
 import IntegrationStatus from "@/components/IntegrationStatus";
+import { VoiceConversation } from "@/components/VoiceConversation";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 import { 
   Phone, 
   Calendar, 
   PoundSterling, 
   Users, 
   TrendingUp,
-  Clock
+  Clock,
+  Plus
 } from "lucide-react";
 
 interface ServiceRequest {
@@ -32,6 +35,7 @@ const AdminDashboard = () => {
   const { user } = useAuth();
   const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showVoiceChat, setShowVoiceChat] = useState(false);
 
   useEffect(() => {
     fetchServiceRequests();
@@ -115,17 +119,35 @@ const AdminDashboard = () => {
           {/* Current Service Requests */}
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-1">Active Service Requests</h2>
+              <div className="flex items-center justify-between mb-1">
+                <h2 className="text-2xl font-bold text-foreground">Active Service Requests</h2>
+                <Button onClick={() => setShowVoiceChat(true)} className="gap-2">
+                  <Plus className="w-4 h-4" />
+                  Voice Intake
+                </Button>
+              </div>
               <p className="text-muted-foreground mb-6">Current jobs in the workflow pipeline</p>
               
               <div className="space-y-4">
+                {showVoiceChat && (
+                  <div className="mb-6">
+                    <VoiceConversation 
+                      onClose={() => {
+                        setShowVoiceChat(false);
+                        fetchServiceRequests(); // Refresh the list when conversation ends
+                      }}
+                      businessId={user?.id}
+                    />
+                  </div>
+                )}
+                
                 {loading ? (
                   <div className="text-center py-8 text-muted-foreground">
                     Loading service requests...
                   </div>
                 ) : serviceRequests.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
-                    No service requests yet. Share the customer landing page to start receiving requests.
+                    No service requests yet. Use the Voice Intake button above to start taking calls.
                   </div>
                 ) : (
                   serviceRequests.map((request) => (
