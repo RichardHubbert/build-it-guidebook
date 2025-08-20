@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Phone, Clock, Shield } from "lucide-react";
+import { MessageCircle, Phone, Clock, Shield, Calendar } from "lucide-react";
 import ServiceRequestForm from "@/components/ServiceRequestForm";
+import BookingForm from "@/components/BookingForm";
 
 const CustomerLanding = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isServiceFormOpen, setIsServiceFormOpen] = useState(false);
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
 
   const handleWhatsAppClick = () => {
-    setIsFormOpen(true);
+    setIsServiceFormOpen(true);
+  };
+
+  const handleBookingClick = () => {
+    setIsBookingFormOpen(true);
   };
 
   return (
@@ -16,28 +22,37 @@ const CustomerLanding = () => {
         {/* Company Logo/Branding */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">ServiceFlow AI</h1>
-          <p className="text-muted-foreground">Get instant help via WhatsApp</p>
+          <p className="text-muted-foreground">Get instant help or book an appointment</p>
         </div>
 
-        {/* Main WhatsApp CTA */}
+        {/* Main Action Buttons */}
         <div className="mb-8">
           <div className="mb-6">
-            <div className="w-20 h-20 mx-auto bg-success rounded-full flex items-center justify-center mb-4 animate-pulse-glow">
-              <MessageCircle className="w-10 h-10 text-success-foreground" />
-            </div>
-            <h2 className="text-xl font-semibold text-foreground mb-2">Need Service?</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-2">How would you like to get help?</h2>
             <p className="text-muted-foreground text-sm">
-              Chat with us on WhatsApp for instant support and scheduling
+              Choose instant chat support or book a scheduled appointment
             </p>
           </div>
 
-          <Button
-            onClick={handleWhatsAppClick}
-            className="w-full bg-success hover:bg-success/90 text-success-foreground py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
-          >
-            <MessageCircle className="w-6 h-6 mr-3" />
-            Start WhatsApp Chat
-          </Button>
+          <div className="grid grid-cols-1 gap-4">
+            {/* WhatsApp Button */}
+            <Button
+              onClick={handleWhatsAppClick}
+              className="w-full bg-success hover:bg-success/90 text-success-foreground py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
+            >
+              <MessageCircle className="w-6 h-6 mr-3" />
+              Start WhatsApp Chat
+            </Button>
+
+            {/* Booking Button */}
+            <Button
+              onClick={handleBookingClick}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
+            >
+              <Calendar className="w-6 h-6 mr-3" />
+              Book Appointment
+            </Button>
+          </div>
         </div>
 
         {/* Feature highlights */}
@@ -93,8 +108,13 @@ const CustomerLanding = () => {
       </div>
       
       <ServiceRequestForm 
-        isOpen={isFormOpen} 
-        onClose={() => setIsFormOpen(false)} 
+        isOpen={isServiceFormOpen} 
+        onClose={() => setIsServiceFormOpen(false)} 
+      />
+      
+      <BookingForm 
+        isOpen={isBookingFormOpen} 
+        onClose={() => setIsBookingFormOpen(false)} 
       />
     </div>
   );
