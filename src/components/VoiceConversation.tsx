@@ -25,6 +25,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
   const [isConnected, setIsConnected] = useState(false);
   const [customerData, setCustomerData] = useState<CustomerData>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [conversationMessages, setConversationMessages] = useState<any[]>([]);
   const { toast } = useToast();
 
   const conversation = useConversation({
@@ -46,6 +48,13 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
     },
     onMessage: (message) => {
       console.log('Message received:', message);
+      
+      // Store all messages in our conversation log
+      setConversationMessages(prev => [...prev, {
+        ...message,
+        timestamp: new Date().toISOString()
+      }]);
+      
       // Parse customer data from conversation
       if (message.source === 'ai') {
         parseCustomerData(message.message);
@@ -175,6 +184,50 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
     }
   };
 
+  const saveConversation = async () => {
+    if (!conversationMessages.length) return;
+
+    try {
+      const conversationData = {
+        business_id: businessId || null,
+        customer_name: customerData.name || null,
+        customer_email: customerData.email || null,
+        customer_phone: customerData.phone || null,
+        conversation_data: conversationMessages,
+        session_id: conversationId,
+        status: 'completed'
+      };
+
+      if (conversationId) {
+        // Update existing conversation
+        const { error } = await supabase
+          .from('conversations')
+          .update({
+            conversation_data: conversationMessages,
+            customer_name: customerData.name || null,
+            customer_email: customerData.email || null,
+            customer_phone: customerData.phone || null,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', conversationId);
+
+        if (error) throw error;
+      } else {
+        // Create new conversation
+        const { data, error } = await supabase
+          .from('conversations')
+          .insert(conversationData)
+          .select('id')
+          .single();
+
+        if (error) throw error;
+        if (data) setConversationId(data.id);
+      }
+    } catch (error) {
+      console.error('Error saving conversation:', error);
+    }
+  };
+
   const startConversation = async () => {
     try {
       setIsLoading(true);
@@ -207,6 +260,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
 
   const endConversation = async () => {
     try {
+      // Save the conversation before ending
+      await saveConversation();
       await conversation.endSession();
       onClose();
     } catch (error) {

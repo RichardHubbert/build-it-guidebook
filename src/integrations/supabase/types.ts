@@ -399,6 +399,53 @@ export type Database = {
           },
         ]
       }
+      conversations: {
+        Row: {
+          business_id: string | null
+          conversation_data: Json
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          id: string
+          session_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          business_id?: string | null
+          conversation_data?: Json
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string | null
+          conversation_data?: Json
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           booking_date: string | null
