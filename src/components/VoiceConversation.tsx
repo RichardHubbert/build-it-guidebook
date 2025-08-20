@@ -21,6 +21,7 @@ interface VoiceConversationProps {
 }
 
 export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProps) => {
+  console.log('VoiceConversation component mounted');
   const [isConnected, setIsConnected] = useState(false);
   const [customerData, setCustomerData] = useState<CustomerData>({});
   const [isLoading, setIsLoading] = useState(false);

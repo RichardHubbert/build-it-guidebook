@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone, Clock, Shield, Calendar, Send, Mic } from "lucide-react";
 import N8nWhatsApp from "@/components/N8nWhatsApp";
@@ -25,8 +25,16 @@ const CustomerLanding = () => {
   };
 
   const handleVoiceClick = () => {
+    console.log('Voice button clicked');
     setIsVoiceConversationOpen(true);
+    console.log('isVoiceConversationOpen set to true');
   };
+
+  useEffect(() => {
+    if (isVoiceConversationOpen) {
+      console.log('Voice conversation modal is now open');
+    }
+  }, [isVoiceConversationOpen]);
 
   return (
     <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
