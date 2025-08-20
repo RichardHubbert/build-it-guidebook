@@ -11,6 +11,8 @@ interface CustomerData {
   email?: string;
   phone?: string;
   service?: string;
+  issue?: string;
+  address?: string;
   preferredTime?: string;
   notes?: string;
 }
@@ -66,6 +68,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         email?: string;
         phone?: string;
         service?: string;
+        issue?: string;
+        address?: string;
         preferredTime?: string;
         notes?: string;
       }) => {
@@ -155,15 +159,16 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
           prompt: `You are a helpful customer service representative for a local business. Your goal is to:
           
           1. Greet customers warmly and ask how you can help them today
-          2. Collect their contact information (name, phone, email)
-          3. Understand their needs (service requests, bookings, questions)
-          4. For service requests: collect issue description, address, urgency level
-          5. For bookings: collect preferred date, time, party size, special requests
-          6. Use the provided tools to save customer information and create requests
-          7. Always confirm the information back to the customer before creating records
-          8. Be friendly, professional, and efficient
+          2. Collect their complete contact information (name, phone, email)
+          3. Understand the problem or issue they need help with
+          4. Collect address information if needed for service requests
+          5. Use the collectCustomerInfo tool to save all collected information (name, phone, email, issue, address)
+          6. For service requests: create the request using createServiceRequest tool
+          7. For bookings: create the booking using scheduleBooking tool
+          8. Always confirm the information back to the customer before creating records
+          9. Be friendly, professional, and efficient
           
-          Remember to use the collectCustomerInfo, createServiceRequest, and scheduleBooking tools when appropriate.`
+          IMPORTANT: Always use the collectCustomerInfo tool whenever you gather customer information including their name, phone, email, and the problem they're describing. This ensures the information is properly displayed and saved.`
         },
         firstMessage: "Hello! Thank you for calling. I'm here to help you with any questions or to schedule a service. How can I assist you today?",
         language: "en"
@@ -311,16 +316,22 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
           <div className="space-y-2 p-3 bg-muted rounded-lg">
             <h4 className="text-sm font-medium">Collected Information:</h4>
             {customerData.name && (
-              <p className="text-sm">Name: {customerData.name}</p>
-            )}
-            {customerData.email && (
-              <p className="text-sm">Email: {customerData.email}</p>
+              <p className="text-sm"><strong>Name:</strong> {customerData.name}</p>
             )}
             {customerData.phone && (
-              <p className="text-sm">Phone: {customerData.phone}</p>
+              <p className="text-sm"><strong>Telephone:</strong> {customerData.phone}</p>
+            )}
+            {customerData.email && (
+              <p className="text-sm"><strong>Email:</strong> {customerData.email}</p>
+            )}
+            {customerData.issue && (
+              <p className="text-sm"><strong>Problem:</strong> {customerData.issue}</p>
+            )}
+            {customerData.address && (
+              <p className="text-sm"><strong>Address:</strong> {customerData.address}</p>
             )}
             {customerData.service && (
-              <p className="text-sm">Service: {customerData.service}</p>
+              <p className="text-sm"><strong>Service:</strong> {customerData.service}</p>
             )}
           </div>
         )}
