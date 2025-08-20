@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone, Clock, Shield, Calendar } from "lucide-react";
-import ServiceRequestForm from "@/components/ServiceRequestForm";
+import N8nWhatsApp from "@/components/N8nWhatsApp";
 import BookingForm from "@/components/BookingForm";
 
 const CustomerLanding = () => {
-  const [isServiceFormOpen, setIsServiceFormOpen] = useState(false);
+  const [isWhatsAppFormOpen, setIsWhatsAppFormOpen] = useState(false);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
 
   const handleWhatsAppClick = () => {
-    setIsServiceFormOpen(true);
+    setIsWhatsAppFormOpen(true);
   };
 
   const handleBookingClick = () => {
@@ -30,7 +30,7 @@ const CustomerLanding = () => {
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-foreground mb-2">How would you like to get help?</h2>
             <p className="text-muted-foreground text-sm">
-              Choose instant chat support or book a scheduled appointment
+              Start a WhatsApp conversation or book a scheduled appointment
             </p>
           </div>
 
@@ -107,9 +107,9 @@ const CustomerLanding = () => {
         </div>
       </div>
       
-      <ServiceRequestForm 
-        isOpen={isServiceFormOpen} 
-        onClose={() => setIsServiceFormOpen(false)} 
+      <N8nWhatsApp 
+        isOpen={isWhatsAppFormOpen} 
+        onClose={() => setIsWhatsAppFormOpen(false)} 
       />
       
       <BookingForm 
