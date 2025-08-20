@@ -49,7 +49,7 @@ const CustomerLanding = () => {
           </div>
 
           {/* ElevenLabs ConvAI Widget - Main Feature */}
-          <div className="mb-6 p-4 bg-primary/10 rounded-xl border-2 border-primary/20">
+          <div className="mb-6 p-6 bg-primary/5 rounded-2xl border border-primary/30 min-h-[200px] flex items-center justify-center">
             <div 
               dangerouslySetInnerHTML={{
                 __html: '<elevenlabs-convai agent-id="agent_5201k1zbeaqxeyzr3sq4edy6pffn"></elevenlabs-convai>'
