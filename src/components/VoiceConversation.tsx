@@ -73,11 +73,15 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         preferredTime?: string;
         notes?: string;
       }) => {
-        setCustomerData(prev => ({
-          ...prev,
-          ...parameters
-        }));
-        console.log('Customer info collected:', parameters);
+        console.log('collectCustomerInfo called with parameters:', parameters);
+        setCustomerData(prev => {
+          const updated = {
+            ...prev,
+            ...parameters
+          };
+          console.log('Updated customerData:', updated);
+          return updated;
+        });
         return "Customer information saved successfully";
       },
       createServiceRequest: async (parameters: {
@@ -265,17 +269,26 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
 
   const endConversation = async () => {
     try {
+      console.log('Ending conversation with customerData:', customerData);
+      
       // Save the conversation before ending
       await saveConversation();
       
       // Automatically create service request if we have customer data
-      if (customerData.name && customerData.phone && customerData.issue) {
+      if (customerData.name && customerData.phone) {
+        console.log('Creating service request with data:', {
+          name: customerData.name,
+          phone: customerData.phone,
+          issue: customerData.issue || customerData.service,
+          address: customerData.address
+        });
+        
         const { error } = await supabase
           .from('service_requests')
           .insert({
             customer_name: customerData.name,
             phone: customerData.phone,
-            issue: customerData.issue || 'Voice conversation inquiry',
+            issue: customerData.issue || customerData.service || 'Voice conversation inquiry',
             address: customerData.address || 'Not provided',
             urgency: 'Medium',
             business_id: businessId || null,
@@ -285,12 +298,32 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
 
         if (error) {
           console.error('Error creating service request:', error);
+          toast({
+            title: "Error",
+            description: "Failed to create service request. Please create manually.",
+            variant: "destructive",
+          });
         } else {
+          console.log('Service request created successfully');
           toast({
             title: "Service Request Created",
             description: `Service request for ${customerData.name} has been created and added to Active Service Requests.`,
           });
         }
+      } else {
+        console.log('Insufficient customer data to create service request:', {
+          hasName: !!customerData.name,
+          hasPhone: !!customerData.phone,
+          hasIssue: !!customerData.issue,
+          hasService: !!customerData.service,
+          customerData
+        });
+        
+        toast({
+          title: "No Service Request Created",
+          description: "Insufficient customer information collected during conversation.",
+          variant: "destructive",
+        });
       }
       
       await conversation.endSession();
