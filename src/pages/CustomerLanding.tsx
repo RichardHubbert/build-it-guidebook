@@ -5,17 +5,6 @@ import N8nWhatsApp from "@/components/N8nWhatsApp";
 import N8nTelegram from "@/components/N8nTelegram";
 import BookingForm from "@/components/BookingForm";
 
-// Declare the custom element for TypeScript
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'elevenlabs-convai': {
-        'agent-id': string;
-      };
-    }
-  }
-}
-
 
 const CustomerLanding = () => {
   const [isWhatsAppFormOpen, setIsWhatsAppFormOpen] = useState(false);
@@ -170,7 +159,11 @@ const CustomerLanding = () => {
       />
       
       {/* ElevenLabs ConvAI Widget */}
-      <elevenlabs-convai agent-id="agent_01jwxgvhvde28r7dnzync8sheh"></elevenlabs-convai>
+      <div 
+        dangerouslySetInnerHTML={{
+          __html: '<elevenlabs-convai agent-id="agent_01jwxgvhvde28r7dnzync8sheh"></elevenlabs-convai>'
+        }}
+      />
     </div>
   );
 };
