@@ -1,22 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Phone, Clock, Shield, Calendar, Send, Mic } from "lucide-react";
-import N8nWhatsApp from "@/components/N8nWhatsApp";
-import N8nTelegram from "@/components/N8nTelegram";
+import { Phone, Clock, Shield, Calendar, Mic } from "lucide-react";
 import BookingForm from "@/components/BookingForm";
 
 
 const CustomerLanding = () => {
-  const [isWhatsAppFormOpen, setIsWhatsAppFormOpen] = useState(false);
-  const [isTelegramFormOpen, setIsTelegramFormOpen] = useState(false);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
-  const handleWhatsAppClick = () => {
-    setIsWhatsAppFormOpen(true);
-  };
-
-  const handleTelegramClick = () => {
-    setIsTelegramFormOpen(true);
-  };
 
   const handleBookingClick = () => {
     setIsBookingFormOpen(true);
@@ -48,29 +37,11 @@ const CustomerLanding = () => {
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-foreground mb-2">How would you like to get help?</h2>
             <p className="text-muted-foreground text-sm">
-              Start a conversation via WhatsApp or Telegram, or book a scheduled appointment
+              Talk to our AI assistant or book a scheduled appointment
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-4">
-            {/* WhatsApp Button */}
-            <Button
-              onClick={handleWhatsAppClick}
-              className="w-full bg-success hover:bg-success/90 text-success-foreground py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
-            >
-              <MessageCircle className="w-6 h-6 mr-3" />
-              Start WhatsApp Chat
-            </Button>
-
-            {/* Telegram Button */}
-            <Button
-              onClick={handleTelegramClick}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 text-lg font-semibold rounded-xl shadow-medium transition-all hover:shadow-glow hover:scale-105"
-            >
-              <Send className="w-6 h-6 mr-3" />
-              Start Telegram Chat
-            </Button>
-
             {/* Voice Conversation Button */}
             <Button
               onClick={handleVoiceClick}
@@ -142,16 +113,6 @@ const CustomerLanding = () => {
           </div>
         </div>
       </div>
-      
-      <N8nWhatsApp 
-        isOpen={isWhatsAppFormOpen} 
-        onClose={() => setIsWhatsAppFormOpen(false)} 
-      />
-      
-      <N8nTelegram 
-        isOpen={isTelegramFormOpen} 
-        onClose={() => setIsTelegramFormOpen(false)} 
-      />
       
       <BookingForm 
         isOpen={isBookingFormOpen} 
