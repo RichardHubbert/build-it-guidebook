@@ -1643,6 +1643,51 @@ export type Database = {
         }
         Relationships: []
       }
+      trade: {
+        Row: {
+          client_notes: string | null
+          created_at: string
+          date: string | null
+          duration: string | null
+          email: string | null
+          id: number
+          name: string | null
+          phone: string | null
+          service: string | null
+          subject: string | null
+          time: string | null
+          treatment: string | null
+        }
+        Insert: {
+          client_notes?: string | null
+          created_at?: string
+          date?: string | null
+          duration?: string | null
+          email?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          service?: string | null
+          subject?: string | null
+          time?: string | null
+          treatment?: string | null
+        }
+        Update: {
+          client_notes?: string | null
+          created_at?: string
+          date?: string | null
+          duration?: string | null
+          email?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          service?: string | null
+          subject?: string | null
+          time?: string | null
+          treatment?: string | null
+        }
+        Relationships: []
+      }
       user_product_assignments: {
         Row: {
           assigned_by: string

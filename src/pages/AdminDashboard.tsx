@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 interface ServiceRequest {
-  id: number;
+  id: string;
   customer: string;
   phone: string;
   issue: string;
@@ -44,15 +44,15 @@ const AdminDashboard = () => {
   const fetchServiceRequests = async () => {
     try {
       const { data, error } = await supabase
-        .from('trade')
+        .from('trade' as any)
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
       // Transform trade data to match component interface
-      const transformedData: ServiceRequest[] = data?.map(request => ({
-        id: request.id,
+      const transformedData: ServiceRequest[] = data?.map((request: any) => ({
+        id: request.id.toString(),
         customer: request.name || 'Unknown Customer',
         phone: request.phone || 'N/A',
         issue: request.service || 'Service Request',
