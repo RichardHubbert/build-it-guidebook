@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 interface ServiceRequest {
-  id: string;
+  id: number;
   customer: string;
   phone: string;
   issue: string;
@@ -44,35 +44,30 @@ const AdminDashboard = () => {
   const fetchServiceRequests = async () => {
     try {
       const { data, error } = await supabase
-        .from('service_requests')
+        .from('trade')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Transform database data to match component interface
+      // Transform trade data to match component interface
       const transformedData: ServiceRequest[] = data?.map(request => ({
         id: request.id,
-        customer: request.customer_name,
-        phone: request.phone,
-        issue: request.issue,
-        address: request.address,
-        urgency: request.urgency as ServiceRequest['urgency'],
-        status: request.status as ServiceRequest['status'],
-        scheduledTime: request.scheduled_time ? 
-          new Date(request.scheduled_time).toLocaleDateString('en-GB', { 
-            day: 'numeric', 
-            month: 'short', 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          }) : undefined,
-        estimatedCost: request.estimated_cost ? Number(request.estimated_cost) : undefined,
-        technicianZone: request.technician_zone || undefined
+        customer: request.name || 'Unknown Customer',
+        phone: request.phone || 'N/A',
+        issue: request.service || 'Service Request',
+        address: request.subject || 'N/A',
+        urgency: "Medium" as ServiceRequest['urgency'], // Default since trade table doesn't have urgency
+        status: "Voice Intake" as ServiceRequest['status'], // Default status
+        scheduledTime: request.date && request.time ? 
+          `${request.date} ${request.time}` : undefined,
+        estimatedCost: undefined, // Not available in trade table
+        technicianZone: request.treatment || undefined
       })) || [];
 
       setServiceRequests(transformedData);
     } catch (error) {
-      console.error('Error fetching service requests:', error);
+      console.error('Error fetching trade requests:', error);
     } finally {
       setLoading(false);
     }
