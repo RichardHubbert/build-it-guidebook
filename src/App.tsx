@@ -21,7 +21,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.PROD ? '/trade' : '/'}>
           <Routes>
             <Route path="/" element={<CustomerLanding />} />
             <Route path="/auth" element={<Auth />} />
