@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
-import ServiceRequestCard from "@/components/ServiceRequestCard";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import StatsCard from "@/components/StatsCard";
 import IntegrationStatus from "@/components/IntegrationStatus";
@@ -18,54 +17,40 @@ import {
   Plus
 } from "lucide-react";
 
-interface ServiceRequest {
-  id: string;
-  customer: string;
-  phone: string;
-  issue: string;
-  address: string;
-  urgency: "Low" | "Medium" | "High" | "Emergency";
-  status: "Voice Intake" | "Scheduled" | "In Progress" | "Completed" | "Pending Payment";
-  scheduledTime?: string;
-  estimatedCost?: number;
-  technicianZone?: string;
+interface TradeRequest {
+  id: number;
+  name: string | null;
+  phone: string | null;
+  email: string | null;
+  service: string | null;
+  subject: string | null;
+  date: string | null;
+  time: string | null;
+  treatment: string | null;
+  client_notes: string | null;
+  created_at: string;
 }
 
 const AdminDashboard = () => {
   const { user } = useAuth();
-  const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
+  const [tradeRequests, setTradeRequests] = useState<TradeRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showVoiceChat, setShowVoiceChat] = useState(false);
 
   useEffect(() => {
-    fetchServiceRequests();
+    fetchTradeRequests();
   }, []);
 
-  const fetchServiceRequests = async () => {
+  const fetchTradeRequests = async () => {
     try {
       const { data, error } = await supabase
-        .from('trade' as any)
+        .from('trade')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Transform trade data to match component interface
-      const transformedData: ServiceRequest[] = data?.map((request: any) => ({
-        id: request.id.toString(),
-        customer: request.name || 'Unknown Customer',
-        phone: request.phone || 'N/A',
-        issue: request.service || 'Service Request',
-        address: request.subject || 'N/A',
-        urgency: "Medium" as ServiceRequest['urgency'], // Default since trade table doesn't have urgency
-        status: "Voice Intake" as ServiceRequest['status'], // Default status
-        scheduledTime: request.date && request.time ? 
-          `${request.date} ${request.time}` : undefined,
-        estimatedCost: undefined, // Not available in trade table
-        technicianZone: request.treatment || undefined
-      })) || [];
-
-      setServiceRequests(transformedData);
+      setTradeRequests(data || []);
     } catch (error) {
       console.error('Error fetching trade requests:', error);
     } finally {
@@ -81,9 +66,9 @@ const AdminDashboard = () => {
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <StatsCard
-            title="Active Requests"
-            value={serviceRequests.length.toString()}
-            change={`${serviceRequests.filter(r => r.status === 'Voice Intake').length} new today`}
+            title="Trade Requests"
+            value={tradeRequests.length.toString()}
+            change={`${tradeRequests.filter(r => new Date(r.created_at).toDateString() === new Date().toDateString()).length} new today`}
             icon={Phone}
             trend="up"
           />
@@ -115,13 +100,13 @@ const AdminDashboard = () => {
           <div className="lg:col-span-2 space-y-6">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <h2 className="text-2xl font-bold text-foreground">Active Service Requests</h2>
+                <h2 className="text-2xl font-bold text-foreground">Trade Requests</h2>
                 <Button onClick={() => setShowVoiceChat(true)} className="gap-2">
                   <Plus className="w-4 h-4" />
                   Voice Intake
                 </Button>
               </div>
-              <p className="text-muted-foreground mb-6">Current jobs in the workflow pipeline</p>
+              <p className="text-muted-foreground mb-6">Current trade requests from customers</p>
               
               <div className="space-y-4">
                 {showVoiceChat && (
@@ -129,7 +114,7 @@ const AdminDashboard = () => {
                     <VoiceConversation 
                       onClose={() => {
                         setShowVoiceChat(false);
-                        fetchServiceRequests(); // Refresh the list when conversation ends
+                        fetchTradeRequests(); // Refresh the list when conversation ends
                       }}
                       businessId={user?.id}
                     />
@@ -138,15 +123,30 @@ const AdminDashboard = () => {
                 
                 {loading ? (
                   <div className="text-center py-8 text-muted-foreground">
-                    Loading service requests...
+                    Loading trade requests...
                   </div>
-                ) : serviceRequests.length === 0 ? (
+                ) : tradeRequests.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
-                    No service requests yet. Use the Voice Intake button above to start taking calls.
+                    No trade requests yet. Use the Voice Intake button above to start taking calls.
                   </div>
                 ) : (
-                  serviceRequests.map((request) => (
-                    <ServiceRequestCard key={request.id} request={request} />
+                  tradeRequests.map((request) => (
+                    <div key={request.id} className="p-4 border rounded-lg bg-card">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold">{request.name || 'Unknown Customer'}</h3>
+                        <span className="text-sm text-muted-foreground">#{request.id}</span>
+                      </div>
+                      <div className="space-y-1 text-sm">
+                        {request.phone && <p><strong>Phone:</strong> {request.phone}</p>}
+                        {request.email && <p><strong>Email:</strong> {request.email}</p>}
+                        {request.service && <p><strong>Service:</strong> {request.service}</p>}
+                        {request.subject && <p><strong>Subject:</strong> {request.subject}</p>}
+                        {request.date && <p><strong>Date:</strong> {request.date}</p>}
+                        {request.time && <p><strong>Time:</strong> {request.time}</p>}
+                        {request.treatment && <p><strong>Treatment:</strong> {request.treatment}</p>}
+                        {request.client_notes && <p><strong>Notes:</strong> {request.client_notes}</p>}
+                      </div>
+                    </div>
                   ))
                 )}
               </div>
