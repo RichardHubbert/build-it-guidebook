@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Clock, Shield, Calendar, Mic } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import BookingForm from "@/components/BookingForm";
 
 
 const CustomerLanding = () => {
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleBookingClick = () => {
     setIsBookingFormOpen(true);
@@ -21,6 +23,10 @@ const CustomerLanding = () => {
     } else {
       console.log('ElevenLabs widget not found');
     }
+  };
+
+  const handleAdminAccess = () => {
+    navigate("/trade/auth");
   };
 
   return (
@@ -106,7 +112,7 @@ const CustomerLanding = () => {
               variant="ghost"
               size="sm"
               className="text-xs text-muted-foreground hover:text-foreground"
-              onClick={() => window.location.href = "/trade/auth"}
+              onClick={handleAdminAccess}
             >
               Admin Access
             </Button>
