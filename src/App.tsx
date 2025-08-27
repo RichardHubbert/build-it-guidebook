@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Alarms from "./pages/Alarms";
+import Trade from "./pages/Trade";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,11 @@ const App = () => (
             <Route path="/alarms" element={
               <ProtectedRoute>
                 <Alarms />
+              </ProtectedRoute>
+            } />
+            <Route path="/trade" element={
+              <ProtectedRoute>
+                <Trade />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
