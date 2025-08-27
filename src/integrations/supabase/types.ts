@@ -1645,6 +1645,7 @@ export type Database = {
       }
       trade: {
         Row: {
+          business_id: string | null
           client_notes: string | null
           created_at: string
           date: string | null
@@ -1659,6 +1660,7 @@ export type Database = {
           treatment: string | null
         }
         Insert: {
+          business_id?: string | null
           client_notes?: string | null
           created_at?: string
           date?: string | null
@@ -1673,6 +1675,7 @@ export type Database = {
           treatment?: string | null
         }
         Update: {
+          business_id?: string | null
           client_notes?: string | null
           created_at?: string
           date?: string | null
@@ -1686,7 +1689,15 @@ export type Database = {
           time?: string | null
           treatment?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "trade_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_product_assignments: {
         Row: {
