@@ -144,7 +144,7 @@ const Auth = () => {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
               <div className="flex-1">
-                <CardTitle className="text-2xl">ServiceFlow AI</CardTitle>
+                <CardTitle className="text-2xl">Service Flow Trade</CardTitle>
                 <CardDescription>Access your admin dashboard</CardDescription>
               </div>
             </div>

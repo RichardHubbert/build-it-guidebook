@@ -72,7 +72,7 @@ const N8nWhatsApp = ({ isOpen, onClose }: N8nWhatsAppProps) => {
           customer_name: customerData.name,
           customer_phone: customerData.phone,
           customer_message: customerData.message || "Customer wants to start WhatsApp chat",
-          source: "ServiceFlow AI",
+          source: "Service Flow Trade",
           triggered_from: window.location.origin,
         }),
       });

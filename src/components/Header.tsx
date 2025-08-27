@@ -27,7 +27,7 @@ const Header = () => {
                 <Phone className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">ServiceFlow AI</h1>
+                <h1 className="text-xl font-bold text-foreground">Service Flow Trade</h1>
                 <p className="text-xs text-muted-foreground">Smart Service Management</p>
               </div>
             </div>

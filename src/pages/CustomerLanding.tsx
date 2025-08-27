@@ -28,7 +28,7 @@ const CustomerLanding = () => {
       <div className="max-w-md w-full bg-card rounded-2xl shadow-glow p-8 text-center">
         {/* Company Logo/Branding */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">ServiceFlow AI</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Service Flow Trade</h1>
           <p className="text-muted-foreground">Get instant help or book an appointment</p>
         </div>
 

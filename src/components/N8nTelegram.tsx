@@ -74,7 +74,7 @@ const N8nTelegram = ({ isOpen, onClose }: N8nTelegramProps) => {
           customer_phone: customerData.phone || "",
           customer_telegram: customerData.telegram_username,
           customer_message: customerData.message || "Customer wants to start Telegram chat",
-          source: "ServiceFlow AI",
+          source: "Service Flow Trade",
           triggered_from: window.location.origin,
         }),
       });
