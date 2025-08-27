@@ -4,7 +4,7 @@ RewriteEngine On
 # Handle React Router - redirect all requests to index.html except for existing files/directories
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /trade/index.html [L]
+RewriteRule ^(.*)$ /tradepilot2/index.html [L]
 
 # Set proper MIME types for modern web assets
 <IfModule mod_mime.c>
