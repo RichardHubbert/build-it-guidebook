@@ -4,6 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Bell, Settings, User, Phone, LogOut, AlertTriangle } from "lucide-react";
+import NavigationMenu from "./NavigationMenu";
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -32,15 +33,18 @@ const Header = () => {
             </div>
           </div>
           
-          <div className="flex items-center space-x-3">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-muted-foreground hover:text-destructive"
-              onClick={() => navigate("/alarms")}
-            >
-              <AlertTriangle className="w-4 h-4" />
-            </Button>
+          <div className="flex items-center space-x-4">
+            <NavigationMenu />
+            
+            <div className="flex items-center space-x-3">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-muted-foreground hover:text-destructive"
+                onClick={() => navigate("/alarms")}
+              >
+                <AlertTriangle className="w-4 h-4" />
+              </Button>
             
             <Button 
               variant="ghost" 
@@ -93,6 +97,7 @@ const Header = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            </div>
           </div>
         </div>
       </div>
