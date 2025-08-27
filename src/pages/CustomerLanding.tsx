@@ -106,7 +106,7 @@ const CustomerLanding = () => {
               variant="ghost"
               size="sm"
               className="text-xs text-muted-foreground hover:text-foreground"
-              onClick={() => window.location.href = "/auth"}
+              onClick={() => window.location.href = "/trade/auth"}
             >
               Admin Access
             </Button>

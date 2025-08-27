@@ -22,10 +22,15 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename={import.meta.env.PROD ? '/trade' : '/'}>
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<CustomerLanding />} />
-            <Route path="/auth" element={<Auth />} />
+            <Route path="/trade/auth" element={<Auth />} />
+            <Route path="/trade" element={
+              <ProtectedRoute>
+                <Trade />
+              </ProtectedRoute>
+            } />
             <Route path="/admin" element={
               <ProtectedRoute>
                 <AdminDashboard />
@@ -44,11 +49,6 @@ const App = () => (
             <Route path="/alarms" element={
               <ProtectedRoute>
                 <Alarms />
-              </ProtectedRoute>
-            } />
-            <Route path="/trade" element={
-              <ProtectedRoute>
-                <Trade />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
