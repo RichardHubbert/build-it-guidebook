@@ -23,7 +23,7 @@ const Auth = () => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        navigate("/admin");
+        navigate("/trade");
       }
     };
     checkUser();
@@ -58,7 +58,7 @@ const Auth = () => {
           title: "Success",
           description: "Signed in successfully",
         });
-        navigate("/admin");
+        navigate("/trade");
       }
     } catch (error) {
       toast({
@@ -84,7 +84,7 @@ const Auth = () => {
 
     setLoading(true);
     try {
-      const redirectUrl = `${window.location.origin}/admin`;
+      const redirectUrl = `${window.location.origin}/trade`;
       
       const { error } = await supabase.auth.signUp({
         email,
