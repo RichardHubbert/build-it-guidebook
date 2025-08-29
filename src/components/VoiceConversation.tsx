@@ -29,6 +29,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [conversationMessages, setConversationMessages] = useState<any[]>([]);
+  const [isCreatingBooking, setIsCreatingBooking] = useState(false);
+  const [isCreatingServiceRequest, setIsCreatingServiceRequest] = useState(false);
   const { toast } = useToast();
 
   const conversation = useConversation({
@@ -91,7 +93,14 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         address: string;
         urgency?: string;
       }) => {
+        // Prevent duplicate service requests
+        if (isCreatingServiceRequest) {
+          return "Service request already in progress";
+        }
+        
         try {
+          setIsCreatingServiceRequest(true);
+          
           const { error } = await supabase
             .from('service_requests')
             .insert({
@@ -115,6 +124,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         } catch (error) {
           console.error('Error creating service request:', error);
           return "Failed to create service request";
+        } finally {
+          setIsCreatingServiceRequest(false);
         }
       },
       scheduleBooking: async (parameters: {
@@ -127,7 +138,14 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         partySize?: number;
         specialRequests?: string;
       }) => {
+        // Prevent duplicate bookings
+        if (isCreatingBooking) {
+          return "Booking already in progress";
+        }
+        
         try {
+          setIsCreatingBooking(true);
+          
           const { error } = await supabase
             .from('bookings')
             .insert({
@@ -154,6 +172,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         } catch (error) {
           console.error('Error creating booking:', error);
           return "Failed to schedule booking";
+        } finally {
+          setIsCreatingBooking(false);
         }
       }
     },
