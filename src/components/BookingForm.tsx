@@ -44,6 +44,9 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Prevent double submission
+    if (isSubmitting) return;
+    
     if (!formData.customerName || !formData.customerEmail || !formData.customerPhone || !formData.bookingDate || !formData.startTime || !formData.address) {
       toast({
         title: "Missing Information",
