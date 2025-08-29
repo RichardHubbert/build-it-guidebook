@@ -7,7 +7,7 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
-  console.log('Edge function called with method:', req.method)
+  console.log('ElevenLabs session function called with method:', req.method)
 
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -19,14 +19,42 @@ serve(async (req) => {
   }
 
   try {
-    console.log('Processing request...')
+    const apiKey = Deno.env.get('ELEVENLABS_API_KEY')
+    if (!apiKey) {
+      throw new Error('ELEVENLABS_API_KEY not found in environment variables')
+    }
+
+    const { agentId } = await req.json()
+    if (!agentId) {
+      throw new Error('agentId is required')
+    }
+
+    console.log('Getting signed URL for agent:', agentId)
     
-    // Simple test response first
+    // Get signed URL from ElevenLabs
+    const response = await fetch(
+      `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${agentId}`,
+      {
+        method: 'GET',
+        headers: {
+          'xi-api-key': apiKey,
+        },
+      }
+    )
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('ElevenLabs API error:', response.status, errorText)
+      throw new Error(`ElevenLabs API error: ${response.status} - ${errorText}`)
+    }
+
+    const data = await response.json()
+    console.log('Successfully got signed URL from ElevenLabs')
+    
     return new Response(
       JSON.stringify({ 
-        success: true, 
-        message: 'Edge function is working',
-        signedUrl: 'test-url' 
+        success: true,
+        signedUrl: data.signed_url
       }),
       {
         status: 200,
@@ -34,9 +62,12 @@ serve(async (req) => {
       },
     )
   } catch (error) {
-    console.error('Error in edge function:', error)
+    console.error('Error in elevenlabs-session function:', error)
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        success: false,
+        error: error.message 
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

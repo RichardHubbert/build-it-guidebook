@@ -270,8 +270,8 @@ export const VoiceConversation = ({ onClose, businessId }: VoiceConversationProp
         throw new Error(error.message || 'Failed to get session URL');
       }
 
-      if (!data?.signedUrl) {
-        throw new Error('No signed URL returned from server');
+      if (!data?.success || !data?.signedUrl) {
+        throw new Error(data?.error || 'No signed URL returned from server');
       }
 
       await conversation.startSession({ signedUrl: data.signedUrl });
